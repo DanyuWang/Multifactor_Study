@@ -16,7 +16,7 @@ FACTOR_DIR = r"E:\untitled\Strategy\SingleFactorTest\Factor"
 STOCK_INFO = pd.read_csv(r"E:\untitled\Strategy\Tushare Data\AShare_info.csv")
 
 
-def get_data(factor_names):
+def get_data(data_dir, factor_names):
     """
     获取数据
     :param factor_names: list，提取字段列表
@@ -24,7 +24,8 @@ def get_data(factor_names):
     """
     data_dict = {}
     for factor_name in factor_names:
-        data = pd.read_csv(os.path.join(FACTOR_DIR, factor_name), index_col='trade_date')
+        print(os.path.join(data_dir, factor_name))
+        data = pd.read_csv(os.path.join(data_dir, factor_name), index_col='trade_date')
         data_dict[factor_name] = data
 
     return data_dict
@@ -85,8 +86,8 @@ def z_score(x):
 
 def daily_return():
     """
-    计算个股日频收益率
-    :return:
+    计算个股日频收益率，第一行为空
+    :return:收益率矩阵
     """
     close = pd.read_csv(r'E:\untitled\Strategy\Tushare Data\temp\close', index_col=0)
     temp_rt = close / close.shift() - 1
